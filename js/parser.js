@@ -31,25 +31,3 @@ function parseMarkdown(markdown) {
             }
         });
     }
-    
-    // 确保有标题
-    if (!metadata.title) {
-        // 尝试从内容的第一个标题中提取
-        const titleMatch = content.match(/^#\s+(.+)$/m);
-        if (titleMatch) {
-            metadata.title = titleMatch[1];
-        } else {
-            metadata.title = '无标题';
-        }
-    }
-    
-    // 确保有日期
-    if (!metadata.date) {
-        metadata.date = new Date().toISOString().split('T')[0];
-    }
-    
-    return {
-        ...metadata,
-        content: content
-    };
-}
