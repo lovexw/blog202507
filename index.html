@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/markdown.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">我的博客</div>
+            <ul>
+                <li><a href="index.html" class="active">主页</a></li>
+                <li><a href="archive.html">归档</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main class="content">
+            <div id="posts-container">
+                <!-- 文章列表将通过JavaScript动态加载 -->
+                <div class="loading">加载中...</div>
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- 分页控件将通过JavaScript动态加载 -->
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="about-card">
+                <!-- 关于我的信息将通过JavaScript从about.md加载 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 我的博客 | 基于GitHub Pages和Cloudflare</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

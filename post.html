@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章 - 我的博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/markdown.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">我的博客</div>
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="archive.html">归档</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main class="content">
+            <article id="post-container" class="markdown-body">
+                <!-- 文章内容将通过JavaScript动态加载 -->
+                <div class="loading">加载中...</div>
+            </article>
+        </main>
+
+        <aside class="sidebar">
+            <div class="about-card">
+                <!-- 关于我的信息将通过JavaScript从about.md加载 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 我的博客 | 基于GitHub Pages和Cloudflare</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPost();
+        });
+
+        async function loadPost() {
+            const postContainer = document.getElementById('post-container');
+            if (!postContainer) return;
+            
+            try {
+                // 获取文章ID（文件名）
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('id');
+                
+                if (!postId) {
+                    throw new Error('未指定文章ID');
+                }
+                
+                // 获取文章内容
+                const response = await fetch(`posts/${postId}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const postContent = await response.text();
+                const parsedPost = parseMarkdown(postContent);
+                
+                // 设置页面标题
+                document.title = `${parsedPost.title} - 我的博客`;
+                
+                // 构建文章HTML
+                let postHTML = `<h1>${parsedPost.title}</h1>`;
+                postHTML += `<div class="post-meta"><span class="post-date">${parsedPost.date}</span></div>`;
+                
+                // 添加标签和分类
+                if (parsedPost.tags || parsedPost.categories) {
+                    postHTML += '<div class="post-tags">';
+                    
+                    if (parsedPost.categories) {
+                        parsedPost.categories.forEach(category => {
+                            postHTML += `<span class="category">${category}</span>`;
+                        });
+                    }
+                    
+                    if (parsedPost.tags) {
+                        parsedPost.tags.forEach(tag => {
+                            postHTML += `<span class="tag">${tag}</span>`;
+                        });
+                    }
+                    
+                    postHTML += '</div>';
+                }
+                
+                // 使用marked渲染Markdown内容
+                postHTML += marked.parse(parsedPost.content);
+                
+                postContainer.innerHTML = postHTML;
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                postContainer.innerHTML = `<div class="error">加载文章失败: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

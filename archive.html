@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归档 - 我的博客</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">我的博客</div>
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="archive.html" class="active">归档</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main class="content full-width">
+            <h1>文章归档</h1>
+            <div id="archive-container">
+                <!-- 归档内容将通过JavaScript动态加载 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 我的博客 | 基于GitHub Pages和Cloudflare</p>
+    </footer>
+
+    <script src="js/parser.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadArchive();
+        });
+    </script>
+</body>
+</html>
